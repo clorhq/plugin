@@ -1,0 +1,20 @@
+{
+  "name": "clor",
+  "interface": {
+    "displayName": "Clor"
+  },
+  "plugins": [
+    {
+      "name": "clor",
+      "source": {
+        "source": "local",
+        "path": "./plugins/clor"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

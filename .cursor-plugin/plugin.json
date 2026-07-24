@@ -1,0 +1,42 @@
+{
+  "name": "clor",
+  "displayName": "Clor",
+  "description": "Give your agent claws, subagents that automate work in the background or on a schedule, plus a toolkit for web research, AI text, image, and audio inference, email, cloud files, encrypted secrets, weather, and bulk domain name checking",
+  "version": "1.8.27",
+  "author": {
+    "name": "Clor",
+    "url": "https://clor.com"
+  },
+  "homepage": "https://clor.com",
+  "repository": "https://github.com/clorhq/plugin",
+  "license": "MIT",
+  "keywords": [
+    "clor",
+    "web-search",
+    "news",
+    "videos",
+    "images",
+    "research",
+    "scrape",
+    "crawl",
+    "map",
+    "screenshot",
+    "pdf",
+    "hacker-news",
+    "ai",
+    "inference",
+    "claude",
+    "openai",
+    "gemini",
+    "image-generation",
+    "transcription",
+    "audio-to-text",
+    "text-to-speech",
+    "email",
+    "imap",
+    "smtp",
+    "secrets",
+    "domains"
+  ],
+  "skills": "./skills/"
+}

@@ -1,0 +1,6 @@
+{
+  "name": "clor",
+  "description": "Give your agent claws, subagents that automate work in the background or on a schedule, plus a toolkit for web research, AI text, image, and audio inference, email, cloud files, encrypted secrets, weather, and bulk domain name checking",
+  "version": "1.8.27",
+  "contextFileName": "GEMINI.md"
+}
