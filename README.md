@@ -13,6 +13,9 @@ Jump to your agent:
 - [Cursor](#cursor)
 - [Hermes](#hermes)
 
+Then: [what you get](#what-you-get) · [automate with /claw](#automate-with-claw)
+· [troubleshooting](#troubleshooting)
+
 ---
 
 ## Claude Code
@@ -292,6 +295,35 @@ Prefix with `/`:
 
 ---
 
+## What you get
+
+Every agent above loads the same set of skills. Your agent picks the
+right one on its own; you only need this list to know what is on the
+table.
+
+| Skill | What it does |
+| --- | --- |
+| `websearch` | Search the web (pages, news, images, videos), then scrape, parse, map, crawl, or screenshot URLs |
+| `ai` | Generate text, images, and audio through Claude, GPT, Gemini, OpenRouter, and ElevenLabs |
+| `claw` | Create and run async agents on a schedule or on demand with full tool use, MCP servers, and skills |
+| `email` | Read, search, send, and triage email over IMAP and SMTP |
+| `drive` | Store, share, and link cloud files with ACL grants, public links, and Unix verbs |
+| `secret` | Store and retrieve named JSON secrets for the signed-in user |
+| `memory` | Search everything your coding agents have done, and share a wiki they all read and write |
+| `site` | Publish static sites and SPAs over HTTPS with custom domains, atomic deploys, rollbacks, and basic auth |
+| `tunnel` | Expose a local HTTP or WebSocket server at a stable subdomain or an ephemeral link |
+| `space` | Create, list, stop, resume, and delete disposable agent environments on your nodes |
+| `slack` | Post to channels and threads, react, share files, follow the event stream, build bots |
+| `bluesky` | Timeline, feeds, threads, search, follow, like, notifications, direct messages |
+| `hackernews` | Read feeds and threads, comment, submit, poll, vote, favorite, hide, edit, delete |
+| `linear` | Read and update issues, projects, cycles, initiatives, and documents |
+| `weather` | Forecasts, air quality, astronomy, marine conditions, alerts, and location data |
+| `domains` | Bulk-classify domain names as available, taken, or unknown across hundreds of TLDs |
+| `yc` | Search Y Combinator companies and founders by text, batch, industry, region, or tag |
+| `clor` | The umbrella skill, for workflows that span several of the above |
+
+---
+
 ## Automate with /claw
 
 Claws are subagents that run in the background or on a schedule. Each
@@ -313,6 +345,38 @@ imports ready-made ones from the library, edits their tasks and
 schedule, runs them on demand, replays past run output, and pauses or
 deletes them. Invoked with no specific request it shows the claws you
 already have and asks what to do next.
+
+---
+
+## Troubleshooting
+
+**The skills do not show up.** Every agent caches its plugin list at
+session start. Quit the session and start a new one, or use the reload
+step in your agent's section above. Claude Code has `/reload-plugins`;
+Hermes has `/skills reload`; the rest need a fresh session.
+
+**The agent says `clor` is not found.** The skills shell out to the
+`clor` CLI, which the installer puts in `~/.local/bin`. Confirm with
+`which clor`, and add that directory to your `PATH` if your shell does
+not already have it.
+
+**Commands fail with an auth error.** Run `clor account login`. It opens
+a browser approval flow and saves the issued API key for every
+subcommand. `clor account whoami` shows who is currently signed in.
+
+**Check what is installed.** `clor --version` prints the CLI version and
+`clor --help` lists every subcommand. To reinstall or upgrade, run
+`clor install`; it is idempotent and handles both.
+
+### Uninstall
+
+```sh
+clor uninstall
+```
+
+Removes the plugin, service, and skills from every detected agent. The
+CLI binary itself is left in place; delete `~/.local/bin/clor` to remove
+it too.
 
 ---
 
