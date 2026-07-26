@@ -1,0 +1,19 @@
+name: manifest-versions
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - '**/plugin.json'
+      - 'gemini-extension.json'
+      - 'scripts/check-versions.sh'
+      - '.github/workflows/manifest-versions.yml'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: every manifest declares the same semver
+        run: scripts/check-versions.sh
