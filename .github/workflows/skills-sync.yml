@@ -1,0 +1,19 @@
+name: skills-sync
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - 'skills/**'
+      - 'plugins/clor/skills/**'
+      - 'scripts/check-skills-sync.sh'
+      - '.github/workflows/skills-sync.yml'
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: skills/ matches plugins/clor/skills/
+        run: scripts/check-skills-sync.sh
