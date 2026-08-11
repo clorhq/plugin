@@ -1,0 +1,58 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+source_root="${1:-"$repo_root/../clor/skills"}"
+manifest="$source_root/skills.txt"
+destinations=(
+    "$repo_root/skills"
+    "$repo_root/plugins/clor/skills"
+)
+
+if [[ ! -f "$manifest" ]]; then
+    echo "error: canonical skill manifest not found: $manifest" >&2
+    echo "usage: scripts/update-skills [path-to-clor-skills]" >&2
+    exit 1
+fi
+
+mapfile -t skills < "$manifest"
+if [[ ${#skills[@]} -eq 0 ]]; then
+    echo "error: canonical skill manifest is empty: $manifest" >&2
+    exit 1
+fi
+
+declare -A seen=()
+for skill in "${skills[@]}"; do
+    if [[ ! "$skill" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]]; then
+        echo "error: invalid skill slug in $manifest: $skill" >&2
+        exit 1
+    fi
+    if [[ -n ${seen[$skill]:-} ]]; then
+        echo "error: duplicate skill slug in $manifest: $skill" >&2
+        exit 1
+    fi
+    if [[ ! -f "$source_root/$skill/SKILL.md" ]]; then
+        echo "error: canonical skill is missing SKILL.md: $source_root/$skill" >&2
+        exit 1
+    fi
+    seen[$skill]=1
+done
+
+staging_root="$(mktemp -d "$repo_root/.update-skills.XXXXXX")"
+trap 'rm -rf "$staging_root"' EXIT
+
+for i in "${!destinations[@]}"; do
+    staging="$staging_root/$i"
+    mkdir "$staging"
+    for skill in "${skills[@]}"; do
+        cp -R "$source_root/$skill" "$staging/$skill"
+    done
+done
+
+for i in "${!destinations[@]}"; do
+    rm -rf "${destinations[$i]}"
+    mv "$staging_root/$i" "${destinations[$i]}"
+done
+
+echo "synced ${#skills[@]} skills to ${#destinations[@]} plugin trees from $source_root"
