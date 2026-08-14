@@ -75,6 +75,7 @@ every subcommand's help in one shot if you want the whole tree.</description>
 - drive: Store, share, and link cloud files in personal and shared drives with ACL grants, public links, and Unix verbs (ls, cp, mv, rm, df)
 - email: Read, search, send, and triage email over IMAP and SMTP
 - github: Use connected GitHub accounts for tokens and git credentials
+- gitlab: Use connected GitLab accounts for tokens and git credentials
 - hn: Use Hacker News as a client: read feeds and threads, comment, submit, poll, vote, flag, favorite, hide, edit, delete
 - inference: Generate text, images, and audio through Claude, GPT, Gemini, OpenRouter, and ElevenLabs
 - install: Install or upgrade the CLI and daemon, sync skills into Claude Code and Codex
@@ -97,8 +98,9 @@ every subcommand's help in one shot if you want the whole tree.</description>
 - version: Print the compiled CLI version (mirrors `--version` but supports --stdout-format for parsing)
 - weather: Look up weather forecasts, air quality, astronomy, marine conditions, alerts, and location data
 - webagent: Serve and control coding agents (Claude or Codex) through browser chat pages and local Unix sockets
-- webdev: Run a repository's dev server with logs and a live preview in a browser
+- webdev: Run a repository's dev servers with live previews, logs, sharing, and publishing in a browser
 - webgit: Work with Git changes in a browser
+- webmd: Show a repository's markdown documents as a live browser pane
 - webtui: Serve a terminal command as an interactive web page: htop, vim, or any TUI on a PTY, streamed to the browser over WebSocket
 </subcommands>
 
