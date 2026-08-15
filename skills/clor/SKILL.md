@@ -100,7 +100,7 @@ every subcommand's help in one shot if you want the whole tree.</description>
 - webagent: Serve and control coding agents (Claude or Codex) through browser chat pages and local Unix sockets
 - webdev: Run a repository's dev servers with live previews, logs, sharing, and publishing in a browser
 - webgit: Work with Git changes in a browser
-- webmd: Show a repository's markdown documents as a live browser pane
+- webmd: Edit a repository's markdown documents through a live browser pane
 - webtui: Serve a terminal command as an interactive web page: htop, vim, or any TUI on a PTY, streamed to the browser over WebSocket
 </subcommands>
 
