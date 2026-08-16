@@ -1,6 +1,6 @@
 ---
 name: space
-description: Long-lived coding-agent workspaces called spaces, running on a computer or in a sandbox. Create immutable snapshots from saved configs and report lifecycle and agent sign-in readiness. Use when the user wants to create, list, open, stop, resume, move, rename, or delete a space, or run a coding session, hosted service, or unattended agent.
+description: Long-lived coding-agent workspaces called spaces, running on a node or in a sandbox. Launch from a prompt with web-parity defaults or choose a reusable config and report lifecycle and agent sign-in readiness. Use when the user wants to launch, create, list, open, stop, resume, move, rename, or delete a space, or run a coding session, hosted service, or unattended agent.
 compatibility: Requires the clor CLI on the PATH and internet access to function. If the clor CLI is missing, install it by running `curl -fsSL https://clor.com/install.sh | bash`
 ---
 
@@ -15,11 +15,14 @@ On failure, read the error, fix the usage, and retry once when it is safe. Do no
 
 ## Reliable creation
 
-Before creation, run `clor space config list`, inspect the selected UUID with
-`clor space config show <ID>`, and answer only its unresolved launch questions.
-Create the immutable snapshot with `clor space create --config <ID>`, using
-`--agent <TAB>=<AGENT>` for each unresolved agent tab. After creation,
-inspect the returned `agent.credential_state` as well as lifecycle status.
+Start with `clor space launch --prompt "..."`. It uses the same saved and
+automatic choices as the web launcher, so do not list IDs first unless the
+request needs an explicit override. Use `clor space launch [CONFIG] --dry-run`
+to inspect unresolved repository, environment, secret, agent, or Node
+questions without creating resources. `clor space config list` returns the
+canonical references accepted by CONFIG. Launch several spaces through
+independent concurrent invocations, one command per space. After creation,
+inspect `agent.credential_state` as well as lifecycle status because
 `status=ready` does not prove the coding agent is signed in.
 
 ## Spaces reference
