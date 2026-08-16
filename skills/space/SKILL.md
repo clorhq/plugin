@@ -28,22 +28,29 @@ inspect `agent.credential_state` as well as lifecycle status because
 ## Spaces reference
 
 <help command="clor space">
-<summary>Create, list, stop, resume, and delete spaces on your computers</summary>
-<description>A space is a long-lived instance bound to one of your computers. It can
+<summary>Launch, list, stop, resume, and delete spaces on your nodes</summary>
+<description>A space is a long-lived instance bound to one of your nodes. It can
 be a coding session, a hosted service, or an unattended agent. The daemon on
-the computer brings each one up wholly and keeps it converged. This tree
-creates immutable space snapshots from Environments, lists and inspects them,
+the node brings each one up wholly and keeps it converged. This tree
+launches immutable snapshots from space configs, lists and inspects them,
 stops and resumes them, renames them, and deletes them.
 
+Start with
+  clor space launch --prompt "..."
+  clor space launch build-software --prompt "..."
+  clor space launch --repository OWNER/REPO --branch BRANCH --prompt "..."
+  clor space launch build-software --dry-run
+
 Use when
-  - the user wants to start a space from a saved Environment
+  - the user wants to launch a space from a space config or only a prompt
   - the user asks what spaces are running or wants a space's URLs
   - the user wants to stop, resume, rename, or delete a space
 
 Subcommands
-  list      List every space you own (with computer and running status)
+  launch    Launch a space with web-parity defaults
+  list      List every space you own (with node and running status)
   show      Show one space by its id (with its tab URLs)
-  create    Create a space from an Environment
+  create    Create a space with the compatibility flag form
   rename    Rename a space
   stop      Stop a space so the daemon suspends it
   resume    Resume a stopped space
@@ -54,16 +61,17 @@ text, logfmt with event= leader).</description>
 <usage>clor space [flags]</usage>
 
 <uses>
-- the user wants to create, list, stop, resume, rename, or delete a space on one of their computers
+- the user wants to launch, list, stop, resume, rename, or delete a space on one of their nodes
 - the user asks which spaces are running or wants a space's tab URLs
 </uses>
 
 <subcommands>
 - config: Manage reusable space configs
-- create: Create an immutable space snapshot from a config
+- create: Create a space with the compatibility flag form
 - delete: Delete a space
+- launch: Launch a space with the same defaults as the web launcher
 - list: List every space you own
-- move: Move a space to another of your nodes
+- move: Move a space to another node
 - rename: Rename a space
 - resume: Resume a stopped space
 - show: Show one space by its id

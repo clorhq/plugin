@@ -90,7 +90,7 @@ every subcommand's help in one shot if you want the whole tree.</description>
 - secret: Store and retrieve named JSON secrets for the signed-in user
 - site: Publish static sites and single-page apps over HTTPS with custom domains, atomic deploys, rollbacks, and private sharing
 - social: Search Hacker News stories and comments plus Y Combinator companies and founders
-- space: Create, list, stop, resume, and delete spaces on your computers
+- space: Launch, list, stop, resume, and delete spaces on your nodes
 - support: Email the team for help, bug reports, and feature requests
 - template: Render Go html and text templates with variables, partials, Markdown, and a curated function set
 - tunnel: Expose a local HTTP or WebSocket server on the public internet at a stable subdomain or an ephemeral link, run by the daemon
