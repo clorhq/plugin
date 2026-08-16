@@ -1,6 +1,6 @@
 ---
 name: space
-description: Long-lived coding-agent workspaces called spaces, running on a node or in a sandbox. Launch from a prompt with web-parity defaults or choose a reusable config and report lifecycle and agent sign-in readiness. Use when the user wants to launch, create, list, open, stop, resume, move, rename, or delete a space, or run a coding session, hosted service, or unattended agent.
+description: Long-lived coding-agent workspaces called spaces, running on a node or in a sandbox. Launch ordinary coding work with the code-workspace system configuration, use web-developer for web-focused projects, or honor an explicitly requested specialized, saved, or Team configuration. Connect the default Claude and Codex configurations and credentials when available, and report lifecycle and agent sign-in readiness. Use when the user wants to launch, create, list, open, stop, resume, move, rename, or delete a space, or run a coding session, hosted service, or unattended agent.
 compatibility: Requires the clor CLI on the PATH and internet access to function. If the clor CLI is missing, install it by running `curl -fsSL https://clor.com/install.sh | bash`
 ---
 
@@ -13,17 +13,49 @@ If clor needs something only the user has (a value, a choice, a credential, conf
 On failure, read the error, fix the usage, and retry once when it is safe. Do not loop. Report results, not recipes.
 
 
-## Reliable creation
+## Selecting a configuration
 
-Start with `clor space launch --prompt "..."`. It uses the same saved and
-automatic choices as the web launcher, so do not list IDs first unless the
-request needs an explicit override. Use `clor space launch [CONFIG] --dry-run`
-to inspect unresolved repository, environment, secret, agent, or Node
-questions without creating resources. `clor space config list` returns the
-canonical references accepted by CONFIG. Launch several spaces through
-independent concurrent invocations, one command per space. After creation,
-inspect `agent.credential_state` as well as lifecycle status because
-`status=ready` does not prove the coding agent is signed in.
+Honor a configuration the user explicitly requests. Otherwise, pass
+`code-workspace` explicitly for normal coding, debugging, review, refactoring,
+command-line interface, backend, library, infrastructure, and general
+repository work. Do not omit CONFIG for these launches because omission can
+select the member's saved launcher default.
+
+Use `web-developer` only for a web application or website where a live browser
+preview and supervised development server materially help. Choose another
+system configuration only when its environment strongly matches the task.
+
+- `remotion-video` for programmatic video
+- `data-lab` for notebooks or data analysis
+- `browser-desktop` for browser-driven research
+- `markdown-editor` for viewing-first document work
+
+Treat terminal user interface, shell, and experimental multi-agent
+configurations as opt-in interaction models. Use them only when the user asks
+for one. Do not list the configuration library before a routine launch. Run
+`clor space config list` when the user asks what is available, requests a saved
+or Team configuration, or no known system configuration fits.
+
+## Reliable launches
+
+Leave the Claude and Codex configuration and credential flags unset so the
+launcher resolves both runtimes through its defaults. A space configuration's
+agent recommendation takes precedence, followed by the member's saved choice
+and the shipped agent configuration. Credentials use the member's saved choice
+or the launcher's deterministic fallback. If several choices exist, accept the
+selected default instead of choosing one by its name. Never pass `none` for an
+agent configuration or credential unless the user explicitly asks to disable
+that attachment.
+
+Use `clor space launch [CONFIG] --dry-run` to resolve Node, repository,
+credential, environment, and secret questions before creation when needed. The
+plan reports the selected Claude and Codex configurations and credentials. If
+either runtime has no selected configuration or credential, report the gap and
+ask before launching without it. Never invent a reference.
+
+Launch several spaces through independent concurrent invocations, one command
+per space. After creation, inspect `agent.credential_state` as well as lifecycle
+status because `status=ready` does not prove the coding agent is signed in.
 
 ## Spaces reference
 
@@ -36,10 +68,9 @@ launches immutable snapshots from space configs, lists and inspects them,
 stops and resumes them, renames them, and deletes them.
 
 Start with
-  clor space launch --prompt "..."
-  clor space launch build-software --prompt "..."
-  clor space launch --repository OWNER/REPO --branch BRANCH --prompt "..."
-  clor space launch build-software --dry-run
+  clor space launch code-workspace --prompt "..."
+  clor space launch code-workspace --repository OWNER/REPO --branch BRANCH --prompt "..."
+  clor space launch code-workspace --dry-run
 
 Use when
   - the user wants to launch a space from a space config or only a prompt
@@ -47,7 +78,7 @@ Use when
   - the user wants to stop, resume, rename, or delete a space
 
 Subcommands
-  launch    Launch a space with web-parity defaults
+  launch    Launch a space from a selected configuration
   list      List every space you own (with node and running status)
   show      Show one space by its id (with its tab URLs)
   create    Create a space with the compatibility flag form
@@ -69,7 +100,7 @@ text, logfmt with event= leader).</description>
 - config: Manage reusable space configs
 - create: Create a space with the compatibility flag form
 - delete: Delete a space
-- launch: Launch a space with the same defaults as the web launcher
+- launch: Launch a space from a selected configuration
 - list: List every space you own
 - move: Move a space to another node
 - rename: Rename a space
