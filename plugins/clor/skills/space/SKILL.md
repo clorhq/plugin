@@ -1,6 +1,6 @@
 ---
 name: space
-description: Long-lived coding-agent workspaces called spaces, running on a node or in a sandbox. Launch ordinary coding work with the code-workspace system configuration, use web-developer for web-focused projects, or honor an explicitly requested specialized, saved, or Team configuration. Connect the default Claude and Codex configurations and credentials when available, and report lifecycle and agent sign-in readiness. Use when the user wants to launch, create, list, open, stop, resume, move, rename, or delete a space, or run a coding session, hosted service, or unattended agent.
+description: Task-aware coding-agent workspaces called spaces, running on a node or in a sandbox. Gather authoritative work context, split independent targets into separate spaces, infer repositories, select a fitting configuration, write self-contained prompts, launch concurrently, and verify lifecycle, credential, and tab readiness. Supports Linear and GitHub issues, repository tasks, websites, research, data analysis, documents, hosted services, and explicitly requested saved or Team configurations. Use when the user wants to launch, create, list, open, stop, resume, move, rename, or delete spaces, or turn one or more work requests into ready coding sessions.
 compatibility: Requires the clor CLI on the PATH and internet access to function. If the clor CLI is missing, install it by running `curl -fsSL https://clor.com/install.sh | bash`
 ---
 
@@ -12,6 +12,34 @@ If clor needs something only the user has (a value, a choice, a credential, conf
 
 On failure, read the error, fix the usage, and retry once when it is safe. Do not loop. Report results, not recipes.
 
+
+## Turn work into spaces
+
+Treat an ordinary work request as enough input to prepare a space. Gather the
+authoritative task context before launching, using the relevant skill or the
+local repository already in scope. For example, read GitHub issues and pull
+requests through the GitHub skill, inspect website or research inputs through
+their owning skill, and inspect local repository files for repository work.
+Gather only what the new agent needs to start without repeating discovery.
+
+Linear issue identifiers in a space-launch request are work targets. Use the
+Linear skill to read each existing issue, including its title, description,
+discussion, project context, links, and repository hints that affect the work.
+Do not treat an issue identifier as a space name, configuration, or repository.
+Linear is one source of task context, not a requirement for launching spaces.
+
+Honor any explicit number of spaces or grouping. Otherwise, make one space per
+independent work unit so tasks can proceed in parallel. Two unrelated Linear
+issues, GitHub issues, or repository tasks normally become two spaces. Keep
+tightly coupled changes in one space when they must share a branch, design, or
+working tree. If one target is inaccessible, continue preparing and launching
+the independent targets that have usable context.
+
+Choose the repository in this order: an explicit repository from the user, the
+current repository when it matches the task, then an unambiguous repository
+named by the task metadata. Ask one plain question only when multiple plausible
+repositories remain. Use `--repository none` for work that genuinely has no
+repository. An explicit repository always overrides inference.
 
 ## Selecting a configuration
 
@@ -36,7 +64,21 @@ for one. Do not list the configuration library before a routine launch. Run
 `clor space config list` when the user asks what is available, requests a saved
 or Team configuration, or no known system configuration fits.
 
-## Reliable launches
+## Name and prompt each space
+
+Derive a short, distinct name from the task reference and outcome. Build a
+self-contained initial prompt for each space rather than forwarding the user's
+short request verbatim. Include the task reference, the authoritative context
+you gathered, the selected repository, the requested outcome and acceptance
+conditions, important constraints, and the collaboration mode. State whether
+the space owns an independent work unit or is intentionally coupled to another
+target. Do not assume the new agent can read the conversation that launched it.
+
+Use `--mode code` for implementation, debugging, review, and other ordinary
+software work. Use `--mode plan` only when the user explicitly asks for
+investigation or planning without implementation. An explicit mode always wins.
+
+## Launch and verify
 
 Leave the Claude and Codex configuration and credential flags unset so the
 launcher resolves both runtimes through its defaults. A space configuration's
@@ -47,15 +89,33 @@ selected default instead of choosing one by its name. Never pass `none` for an
 agent configuration or credential unless the user explicitly asks to disable
 that attachment.
 
+Also leave Node and agent runtime unset unless the user requests an override.
 Use `clor space launch [CONFIG] --dry-run` to resolve Node, repository,
-credential, environment, and secret questions before creation when needed. The
-plan reports the selected Claude and Codex configurations and credentials. If
-either runtime has no selected configuration or credential, report the gap and
-ask before launching without it. Never invent a reference.
+credential, environment, and secret questions before creation. The plan reports
+the selected Node, Claude and Codex configurations, and credentials. Supply an
+override only when the user requested one or the preflight reports a real
+ambiguity. If either runtime has no selected configuration or credential,
+report the gap and ask before launching without it. Never invent a reference.
 
 Launch several spaces through independent concurrent invocations, one command
-per space. After creation, inspect `agent.credential_state` as well as lifecycle
-status because `status=ready` does not prove the coding agent is signed in.
+per space, using `clor space launch`, not the compatibility `create` workflow.
+Preserve successful spaces when another launch fails, and report each success
+and failure against its work target. Never delete a successful launch merely to
+make a mixed batch look atomic.
+
+After creation, poll `clor space show <SPACE> --stdout-format json`. Report a
+space ready only after all three checks pass:
+
+- lifecycle `status` is `ready`
+- `agent.credential_state` is `available`
+- an agent tab has a non-empty `public_url` and an HTTP request to that exact URL
+  succeeds
+
+Treat tab URLs as passwords because they can contain access tokens. Do not print
+them in diagnostics beyond the concise final access link the user requested.
+If a lifecycle failure, unavailable credential, inaccessible tab, or bounded
+wait prevents a check from passing, report the space as launched but not ready
+and explain the failing check.
 
 ## Spaces reference
 
