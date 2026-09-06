@@ -34,6 +34,7 @@ Subcommands:
   session    List, inspect, and replay past agent sessions
   document   Read and write the shared markdown wiki
   analytics  Report how much your agents have run, by tokens and tools
+  monitor    Explicitly capture local Claude Code and Codex session history
   reset      Erase all recorded history and wiki documents
 
 Output: every subcommand supports --stdout-format text|jsonl|json (default
@@ -48,6 +49,7 @@ text, logfmt with event= leader).</description>
 <subcommands>
 - analytics: Report how much your agents have run, by token and tool-call counts
 - document: Store, read, search, and link documents in the shared markdown wiki
+- monitor: Capture local Claude Code and Codex session history for this profile
 - reset: Erase all recorded history and every wiki document for your account
 - search: Search everything your agents have said, run, and decided, newest first
 - session: List, inspect, replay, and delete past agent sessions

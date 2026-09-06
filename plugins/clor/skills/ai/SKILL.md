@@ -22,11 +22,11 @@ task, then pick the smallest model that can do the job.
 
   anthropic   Claude text generation and exact prompt token counting.
               Promoted tiers: claude-haiku-4-5 (cheap, fast),
-              claude-opus-5 (frontier), claude-fable-5 (max
+              claude-opus-5 (frontier), claude-fable-5-1 (max
               capability).
   openai      GPT text generation, gpt-image generation and editing,
               and audio transcription. Promoted text tiers:
-              gpt-5.6-luna (cheap), gpt-5.6-sol (frontier).
+              gpt-5.6-luna (cheap), gpt-6-astra (frontier).
               Promoted image tiers: gpt-image-1-mini (cheap, fast),
               gpt-image-2 (frontier).
   google      Gemini text generation and nano-banana image generation.
@@ -52,7 +52,7 @@ higher effort raises both cost and latency.</description>
 <uses>
 - the request needs a non-text modality (image generation or editing, text-to-speech, music, sound effects, voice isolation, voice changing, transcription)
 - the request needs cross-provider routing without configuring a second SDK
-- the caller wants a specific model version (gpt-5.6-sol, claude-opus-5, gemini-3.1-pro-preview) that may be newer than its own SDK
+- the caller wants a specific model version (gpt-6-astra, claude-opus-5, gemini-3.1-pro-preview) that may be newer than its own SDK
 - the caller wants deterministic, request/response model access from a one-shot CLI rather than a long-lived SDK session
 - the caller wants explicit --reasoning effort control (off, low, medium, high, xhigh, max) for thinking-capable models
 </uses>

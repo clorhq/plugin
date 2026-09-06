@@ -1,6 +1,6 @@
 ---
 name: drive
-description: Clor Drive cloud file storage and sharing. Use when the user wants to upload, download, list, copy, move, delete, or share Clor cloud files, create a public link, or persist files between claw runs.
+description: Clor Drive cloud file storage and sharing. Use when the user wants to upload, download, list, copy, move, delete, or share Clor cloud files, create a public link, or persist files between runs.
 compatibility: Requires the clor CLI on the PATH and internet access to function. If the clor CLI is missing, install it by running `curl -fsSL https://clor.com/install.sh | bash`
 ---
 

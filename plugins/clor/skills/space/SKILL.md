@@ -49,9 +49,8 @@ command-line interface, backend, library, infrastructure, and general
 repository work. Do not omit CONFIG for these launches because omission can
 select the member's saved launcher default.
 
-Use `web-developer` only for a web application or website where a live browser
-preview and supervised development server materially help. Choose another
-system configuration only when its environment strongly matches the task.
+Choose another system configuration only when its environment strongly
+matches the task.
 
 - `remotion-video` for programmatic video
 - `data-lab` for notebooks or data analysis
@@ -66,13 +65,21 @@ or Team configuration, or no known system configuration fits.
 
 ## Name and prompt each space
 
-Derive a short, distinct name from the task reference and outcome. Build a
-self-contained initial prompt for each space rather than forwarding the user's
-short request verbatim. Include the task reference, the authoritative context
-you gathered, the selected repository, the requested outcome and acceptance
-conditions, important constraints, and the collaboration mode. State whether
-the space owns an independent work unit or is intentionally coupled to another
-target. Do not assume the new agent can read the conversation that launched it.
+When choosing a name for a launch or rename, use a concise Git-branch-style
+name in lowercase kebab-case. Prefer two or three meaningful components. One is
+enough when fully descriptive, and up to four is acceptable when clarity
+requires it. Put the specific target first, followed by the action or outcome,
+such as `sidebar-navigation-fix` or `billing-csv-export`. Exclude filler,
+conversational phrasing, unnecessary repository prefixes, and generic terms
+such as `task`, `work`, `space`, `change`, or `update`.
+
+Build a self-contained initial prompt for each space rather than forwarding the
+user's short request verbatim. Include the task reference, the authoritative
+context you gathered, the selected repository, the requested outcome and
+acceptance conditions, important constraints, and the collaboration mode.
+State whether the space owns an independent work unit or is intentionally
+coupled to another target. Do not assume the new agent can read the conversation
+that launched it.
 
 Use `--mode code` for implementation, debugging, review, and other ordinary
 software work. Use `--mode plan` only when the user explicitly asks for
